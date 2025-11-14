@@ -10,126 +10,137 @@
 
   <script src="./js/sessao.js"></script>
 
-  <link rel="stylesheet" href="./css/estilo.css" />
+  <link rel="stylesheet" href="./css/MarvelStation.css" />
   <link rel="icon" href="./assets/icon/favicon2.ico" />
   <link rel="preconnect" href="https://fonts.gstatic.com" />
 </head>
 
-<body onload="listar()">
-  <!--header inicio-->
-  <div class="header">
-    <div class="container">
-      <h1 class="titulo">AquaTech</h1>
-      <ul class="navbar">
-        <li>
-          <a href="index.html">Inicial</a>
-        </li>
-        <li>
-          <a href="simulador.html">Simulador</a>
-        </li>
-        <li>|</li>
-        <li>
-          <a href="login.html">Login</a>
-        </li>
-        <li class="agora">
-          <a href="#">Cadastro</a>
-        </li>
-      </ul>
-    </div>
-  </div>
-  <!--header fim-->
+<body>
 
-  <div class="login">
-    <div class="alerta_erro">
-      <div class="card_erro" id="cardErro">
-        <span id="mensagem_erro"></span>
-      </div>
-    </div>
-    <div class="container">
-      <div class="card card-cadastro">
-        <h2>Bem-vindo!</h2>
-        <div class="formulario">
-          <!--
-                         Para inserir mais um campo, copie uma das inputs abaixo.
-                         Assim que inserir vá para o script abaixo.
-                     -->
-          <div class="campo">
-            <span>Código de ativação:</span>
-            <input id="codigo_input" type="text" placeholder="Insira aqui seu código" />
-          </div>
-          <div class="campo">
-            <span>Nome:</span>
-            <input id="nome_input" type="text" placeholder="Seu nome" />
-          </div>
-          <div class="campo">
-            <span>E-mail:</span>
-            <input id="email_input" type="text" placeholder="meuemail@provedor.com" />
-          </div>
+  <header>
 
-          <div class="campo">
+    <nav>
 
-            <span>CPF</span>
-            <input id="cpf_input" placeholder="12345678910" type="number">
+      <div class="part1">
 
-          </div>
+        <div>
 
-          <div class="campo">
-            <span>Senha:</span>
-            <input id="senha_input" type="password" placeholder="******" />
-          </div>
-          <div class="campo">
-            <span>Confirmação da Senha:</span>
-            <input id="confirmacao_senha_input" type="password" placeholder="******" />
-          </div>
-          <button class="botao" onclick="cadastrar()">Cadastrar</button>
-        </div>
-        <div id="div_aguardar" class="loading-div">
-          <img src="./assets/circle-loading.gif" id="loading-gif" />
+          <img class="logo" src="./../public/assets/MarvelStation_Logo.png">
+
         </div>
 
-        <div id="div_erros_login"></div>
-      </div>
-    </div>
-  </div>
+        <ul>
 
-  <!--footer inicio-->
-  <div class="footer">
-    <div class="container">
-      <h4>Feito com amor por aluno &hearts; SPTech &copy; 2023</h4>
-      <span class="version">v1.0.0</span>
+          <li>
+
+            <a href="index.html">Pagina Principal</a>
+
+          </li>
+
+          <li>
+
+            <a href="">Sobre o criador</a>
+
+          </li>
+
+          <li>
+
+            <a href="">Discussões</a>
+
+          </li>
+
+        </ul>
+
+      </div>
+
+      <div class="part2">
+
+        <img src="../public/assets/user_icon.png" alt=>
+
+        <b id="b_usuario"></b>
+
+        <button id="button_login"></button>
+
+
+      </div>
+
+    </nav>
+
+  </header>
+
+  <main>
+
+    <div class="container-login">
+
+      <div class="titulo">
+
+        <h1>Cadastro</h1>
+
+      </div>
+
+      <div class="campos">
+
+        <h3>Nome de usuário</h3>
+        <input id="input_nome" type="text">
+        <h3>Email</h3>
+        <input id="input_email" type="text">
+        <h3>Senha</h3>
+        <input id="input_senha" type="text">
+        <h3> Confirmar Senha</h3>
+        <input id="input_confSenha" type="text">
+
+      </div>
+
+      <button onclick="cadastrar()">Efetuar Cadastro</button>
+
     </div>
-  </div>
-  <!--footer fim-->
+
+  </main>
+
+  <footer>
+
+    <span>Email de contato: marvel.station@gmail.com</span>
+
+  </footer>
+
 </body>
 
 </html>
 
 <script>
 
+  if (sessionStorage.NOME_USUARIO != undefined) {
+
+    b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
+    button_login.innerHTML = 'Sair';
+
+
+  } else {
+
+    b_usuario.innerHTML = 'Visitante';
+    button_login.innerHTML = 'Login';
+
+  }
+
   // Array para armazenar empresas cadastradas para validação de código de ativação 
-  let listaEmpresasCadastradas = [];
+  let listaUsuariosCadastrados = [];
 
   function cadastrar() {
     // aguardar();
 
     //Recupere o valor da nova input pelo nome do id
     // Agora vá para o método fetch logo abaixo
-    var nomeVar = nome_input.value;
-    var emailVar = email_input.value;
-    var senhaVar = senha_input.value;
-    var confirmacaoSenhaVar = confirmacao_senha_input.value;
-    var codigoVar = codigo_input.value;
-    var idEmpresaVincular;
-    var cpfVar = cpf_input.value;
+    var nomeVar = input_nome.value;
+    var emailVar = input_email.value;
+    var senhaVar = input_senha.value;
+    var confSenhaVar = input_confSenha.value;
 
     // Verificando se há algum campo em branco
     if (
       nomeVar == "" ||
       emailVar == "" ||
       senhaVar == "" ||
-      cpfVar == ""||
-      confirmacaoSenhaVar == "" ||
-      codigoVar == ""
+      confSenhaVar == ""
     ) {
       cardErro.style.display = "block";
       mensagem_erro.innerHTML =
@@ -137,33 +148,20 @@
 
       finalizarAguardar();
       return false;
-    }else if(nomeVar.length <= 1 || emailVar.includes('@') == false || emailVar.includes('.') == false
-    || senhaVar.length <= 6 || senhaVar != confirmacaoSenhaVar || cpfVar.length != 11){
+    } else if (nomeVar.length <= 1 || emailVar.includes('@') == false || emailVar.includes('.') == false
+      || senhaVar.length <= 6 || senhaVar != confirmacaoSenhaVar) {
 
       cardErro.style.display = "block";
       mensagem_erro.innerHTML =
-      "(Input Invalido)";
+        "(Input Invalido)";
 
       finalizarAguardar();
       return false;
 
     }
-    
+
     else {
       setInterval(sumirMensagem, 5000);
-    }
-
-    // Verificando se o código de ativação é de alguma empresa cadastrada
-    for (let i = 0; i < listaEmpresasCadastradas.length; i++) {
-      if (listaEmpresasCadastradas[i].codigo_ativacao == codigoVar) {
-        idEmpresaVincular = listaEmpresasCadastradas[i].id
-        console.log("Código de ativação válido.");
-        break;
-      } else {
-        cardErro.style.display = "block";
-        mensagem_erro.innerHTML = "(Mensagem de erro para código inválido)";
-        finalizarAguardar();
-      }
     }
 
     // Enviando o valor da nova input
@@ -175,11 +173,9 @@
       body: JSON.stringify({
         // crie um atributo que recebe o valor recuperado aqui
         // Agora vá para o arquivo routes/usuario.js
-        cpfServer: cpfVar,
         nomeServer: nomeVar,
         emailServer: emailVar,
         senhaServer: senhaVar,
-        idEmpresaVincularServer: idEmpresaVincular
       }),
     })
       .then(function (resposta) {
@@ -188,8 +184,7 @@
         if (resposta.ok) {
           cardErro.style.display = "block";
 
-          mensagem_erro.innerHTML =
-            "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
+          alert('Cadastro Realizado com sucesso! redirecionando para a pagina de login...');
 
           setTimeout(() => {
             window.location = "login.html";
@@ -217,10 +212,10 @@
       .then(function (resposta) {
         resposta.json().then((empresas) => {
           empresas.forEach((empresa) => {
-            listaEmpresasCadastradas.push(empresa);
+            listaUsuariosCadastrados.push(empresa);
 
-            console.log("listaEmpresasCadastradas")
-            console.log(listaEmpresasCadastradas[0].codigo_ativacao)
+            console.log("listaUsuariosCadastrados")
+            console.log(listaUsuariosCadastrados[0].codigo_ativacao)
           });
         });
       })

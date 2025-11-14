@@ -5,6 +5,7 @@
     --cor1: #ec2c24; 
     --cor2: #9b4d4a; 
     --cor3: #C4A484;
+    --cor4: #6d5c4b;
 
 }
 
@@ -24,6 +25,8 @@ body{
   background-position: center center;
 
 }
+
+/* Nav bar */
 
 nav{
 
@@ -87,6 +90,7 @@ nav .part2{
     display: flex;
     align-items: center;
     justify-content: end;
+    gap: 0.5rem;
     flex-direction: row;
     margin: 0.5rem;
 
@@ -108,13 +112,24 @@ nav .part2 img{
 nav .part2 button{
 
     height: 2rem;
-    width: 3rem;
+    width: 100%;
     background-color: var(--cor3);
+
+}
+
+/* Corpos de texto */
+
+main{
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
 }
 
 main .container{
 
+    width: 100%;
     opacity: 90%;
     margin: 1rem;
     padding: 3rem;
@@ -123,6 +138,74 @@ main .container{
     border-radius: 15px;
 
 }
+
+main .container-login{
+
+    width: 50%;
+    opacity: 90%;
+    margin: 1rem;
+    padding: 3rem;
+    background-color: var(--cor3);
+    outline: 3px solid black;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+main .container-login .titulo{
+
+    margin-bottom: 3rem;
+
+}
+
+main .container-login .campos{
+
+    width: 100%;
+    height: 100%;
+
+}
+
+main .container-login .campos input{
+
+    height: 3rem;
+    width: 100%;
+    margin-bottom: 2rem;
+    border-radius: 15px;
+    outline: 1px solid black;
+    text-align: center;
+    font-size: 1.5rem;
+
+}
+
+main .container-login .campos h3{
+
+    margin-bottom: 0.5rem;
+
+}
+
+main .container-login a{
+
+    color: var(--cor1);
+
+}
+
+main .container-login button{
+
+    margin-top: 1rem;
+    width: 70%;
+    height: 4rem;
+    background-color:var(--cor4);
+    font-size: 1.5rem;
+    border-radius: 15px;
+    border: none;
+    cursor: pointer;
+
+}
+
+
+/* footer */
 
 body footer{
 

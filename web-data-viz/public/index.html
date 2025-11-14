@@ -25,7 +25,7 @@
 
         <div>
 
-          <img class="logo" src="../public/assets/MarvelStation_Logo.png">
+          <img class="logo" src="./../public/assets/MarvelStation_Logo.png">
 
         </div>
 
@@ -33,7 +33,7 @@
 
           <li>
 
-            <a class="active" href="">Pagina Principal</a>
+            <a class="active" href="index.html">Pagina Principal</a>
 
           </li>
 
@@ -56,10 +56,10 @@
       <div class="part2">
 
         <img src="../public/assets/user_icon.png" alt=>
-  
-        <a href="">Visitante</a>
 
-        <button>Login</button>
+        <b id="b_usuario"></b>
+
+        <button id="button_login">Login</button>
 
 
       </div>
@@ -122,3 +122,20 @@
 </body>
 
 </html>
+
+<script>
+
+  if (sessionStorage.NOME_USUARIO != undefined) {
+
+    b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
+    button_login.innerHTML = 'Sair';
+
+
+  } else {
+
+    b_usuario.innerHTML = 'Visitante';
+    button_login.innerHTML = 'Loginnnn';
+
+  }
+
+</script>
