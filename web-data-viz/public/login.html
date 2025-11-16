@@ -39,13 +39,13 @@
 
                     <li>
 
-                        <a href="">Sobre o criador</a>
+                        <a href="sobreMim.html">Sobre o criador</a>
 
                     </li>
 
                     <li>
 
-                        <a href="">Discussões</a>
+                        <a href="guerraCivil.html">Discussões</a>
 
                     </li>
 
@@ -81,14 +81,14 @@
             <div class="campos">
 
                 <h3>Email</h3>
-                <input type="text">
+                <input id="input_email" type="text">
                 <h3>Senha</h3>
-                <input type="text">
+                <input id="input_senha" type="text">
 
             </div>
 
             <a href="cadastro.html">Não possui conta ainda? Cadastre-se!</a>
-            <button>Efetuar login</button>
+            <button onclick="entrar()">Efetuar login</button>
 
         </div>
 
@@ -106,33 +106,46 @@
 
 <script>
 
-    if (sessionStorage.NOME_USUARIO != undefined) {
+    var b_usuario = document.getElementById("b_usuario");
+    var button_login = document.getElementById('button_login');
+
+    if (sessionStorage.NOME_USUARIO != undefined && sessionStorage.NOME_USUARIO != 'undefined') {
 
         b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
         button_login.innerHTML = 'Sair';
+        button_login.onclick = Sair;
 
 
     } else {
 
         b_usuario.innerHTML = 'Visitante';
         button_login.innerHTML = 'Loginnnn';
+        button_login.onclick = Login;
+
+    }
+
+    function Sair() {
+
+        sessionStorage.clear();
+        window.location.reload();
+
+
+    }
+
+    function Login() {
+
+        window.location.href = 'login.html';
 
     }
 
     function entrar() {
-        aguardar();
 
-        var emailVar = email_input.value;
-        var senhaVar = senha_input.value;
+        var emailVar = input_email.value;
+        var senhaVar = input_senha.value;
 
         if (emailVar == "" || senhaVar == "") {
-            cardErro.style.display = "block"
-            mensagem_erro.innerHTML = "(Mensagem de erro para todos os campos em branco)";
-            finalizarAguardar();
+            alert('Campos vazios');
             return false;
-        }
-        else {
-            setInterval(sumirMensagem, 5000)
         }
 
         console.log("FORM LOGIN: ", emailVar);
@@ -156,25 +169,19 @@
                 resposta.json().then(json => {
                     console.log(json);
                     console.log(JSON.stringify(json));
-                    sessionStorage.EMAIL_USUARIO = json.email;
-                    sessionStorage.NOME_USUARIO = json.nome;
-                    sessionStorage.ID_USUARIO = json.id;
-                    sessionStorage.AQUARIOS = JSON.stringify(json.aquarios)
+                    sessionStorage.ID_USUARIO = json[0].idUsuario;
+                    sessionStorage.EMAIL_USUARIO = json[0].email;
+                    sessionStorage.NOME_USUARIO = json[0].nome;
 
                     setTimeout(function () {
-                        window.location = "./dashboard/cards.html";
-                    }, 1000); // apenas para exibir o loading
+                        window.location = "index.html";
+                    }, 1000)
 
                 });
 
             } else {
 
-                console.log("Houve um erro ao tentar realizar o login!");
-
-                resposta.text().then(texto => {
-                    console.error(texto);
-                    finalizarAguardar(texto);
-                });
+                alert('Login Inválido');
             }
 
         }).catch(function (erro) {
@@ -182,10 +189,6 @@
         })
 
         return false;
-    }
-
-    function sumirMensagem() {
-        cardErro.style.display = "none"
     }
 
 </script>

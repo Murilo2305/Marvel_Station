@@ -18,7 +18,7 @@
 
 body{
 
-  background-image: url('../assets/background.jpg');
+  background-image: url('../assets/background2.jpg');
   background-attachment: fixed;
   background-size: cover;
   background-repeat: no-repeat;
@@ -122,7 +122,7 @@ nav .part2 button{
 main{
 
     display: flex;
-    align-items: center;
+    align-items: start;
     justify-content: center;
 
 }
@@ -136,6 +136,42 @@ main .container{
     background-color: var(--cor3);
     outline: 3px solid black;
     border-radius: 15px;
+    flex-direction: row;
+
+}
+
+main .container-discucoes{
+
+    width: 80%;
+    opacity: 90%;
+    margin: 1rem;
+    padding: 3rem;
+    background-color: var(--cor3);
+    outline: 3px solid black;
+    border-radius: 15px;
+    flex-direction: row;
+
+}
+
+main .lista-discucoes{
+
+    width: 20%;
+    opacity: 90%;
+    margin: 1rem;
+    padding: 0.5rem;
+    background-color: var(--cor3);
+    outline: 3px solid black;
+    border-radius: 15px;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+
+}
+
+main .lista-discucoes ul li{
+
+    margin-top: 1rem;
+    
 
 }
 
@@ -203,7 +239,6 @@ main .container-login button{
     cursor: pointer;
 
 }
-
 
 /* footer */
 

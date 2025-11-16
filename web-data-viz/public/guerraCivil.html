@@ -12,6 +12,7 @@
 
   <link rel="stylesheet" href="./css/MarvelStation.css">
   <link rel="preconnect" href="https://fonts.gstatic.com">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 </head>
 
@@ -33,7 +34,7 @@
 
           <li>
 
-            <a class="active" href="index.html">Pagina Principal</a>
+            <a href="index.html">Pagina Principal</a>
 
           </li>
 
@@ -45,7 +46,7 @@
 
           <li>
 
-            <a href="guerraCivil.html">Discussões</a>
+            <a class="active" href="guerraCivil.html">Discussões</a>
 
           </li>
 
@@ -70,7 +71,7 @@
 
   <main>
 
-    <div class="container">
+    <div class="container-discucoes">
 
       <span>aaaaaaaaaaaaaaaaaaaaaaa</span><br>
       <span>aaaaaaaaaaaaaaaaaaaaaaa</span><br>
@@ -108,6 +109,23 @@
       <span>aaaaaaaaaaaaaaaaaaaaaaa</span><br>
       <span>aaaaaaaaaaaaaaaaaaaaaaa</span><br>
       <span>aaaaaaaaaaaaaaaaaaaaaaa</span><br>
+
+      <input type="number" id="input_voto"><br>
+      <button onclick="Votar()">Votar</button>
+
+      <canvas id="canvas_resultadoVotacao"></canvas>
+
+    </div>
+
+    <div class="lista-discucoes">
+
+      <h3>Todas as Discussões</h3>
+
+      <ul>
+
+        <li><a href="guerraCivil.html">Quem estava certo na guerra civil?</a></li>
+
+      </ul>
 
     </div>
 
@@ -156,5 +174,121 @@
     window.location.href = 'login.html';
 
   }
+
+  function Votar() {
+
+
+    fetch('/votacao/votar', {
+
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+
+        voto: input_voto.value,
+        idUsuario: sessionStorage.ID_USUARIO,
+        idDiscucao: 1,
+
+      }),
+
+    })
+      .then(function (resposta) {
+
+        if (resposta.ok) {
+
+          alert('Voto efetuado com sucesso!');
+
+        } else {
+
+          alert('Erro na votação');
+
+        }
+
+      })
+      .catch(function (resposta) {
+        console.log(`#ERRO: ${resposta}`);
+
+      });
+
+    return false;
+
+  }
+
+  function gerarGrafico() {
+
+    fetch(('votacao/gerarGrafico'), {
+
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+
+        idDiscucao: 1
+
+      }),
+
+    })
+      .then(function (resposta) {
+
+        resposta.json().then(function (response) {
+
+          response.reverse();
+          console.log(`Dados recebidos: ${JSON.stringify(response)}`);
+
+          let labels = [
+
+          'Votos'
+
+          ];
+
+          let dados = {
+
+            labels: labels,
+            datasets: [{
+              label: 'Capitão América',
+              data: [],
+              fill: false,
+              borderColor: 'rgb(75, 192, 192)',
+              tension: 0.1
+            },
+            {
+              label: 'Homem de Ferro',
+              data: [],
+              fill: false,
+              borderColor: 'rgb(199, 52, 52)',
+              tension: 0.1
+            }]
+
+          }
+
+
+          dados.datasets[0].data.push(response[0].total);
+          dados.datasets[1].data.push(response[1].total);
+
+
+
+          const config = {
+            type: 'bar',
+            data: dados,
+          };
+
+          console.log('fazbear');
+
+          let chartVotacao = new Chart(
+            document.getElementById(`canvas_resultadoVotacao`),
+            config
+          );
+
+        })
+
+
+
+      })
+
+  }
+
+  gerarGrafico();
 
 </script>

@@ -39,13 +39,13 @@
 
           <li>
 
-            <a href="">Sobre o criador</a>
+            <a href="discucoes.html">Sobre o criador</a>
 
           </li>
 
           <li>
 
-            <a href="">Discussões</a>
+            <a href="guerraCivil.html">Discussões</a>
 
           </li>
 
@@ -109,16 +109,35 @@
 
 <script>
 
-  if (sessionStorage.NOME_USUARIO != undefined) {
+  var b_usuario = document.getElementById("b_usuario");
+  var button_login = document.getElementById('button_login');
+
+  if (sessionStorage.NOME_USUARIO != undefined && sessionStorage.NOME_USUARIO != 'undefined') {
 
     b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
     button_login.innerHTML = 'Sair';
+    button_login.onclick = Sair;
 
 
   } else {
 
     b_usuario.innerHTML = 'Visitante';
-    button_login.innerHTML = 'Login';
+    button_login.innerHTML = 'Loginnnn';
+    button_login.onclick = Login;
+
+  }
+
+  function Sair() {
+
+    sessionStorage.clear();
+    window.location.reload();
+
+
+  }
+
+  function Login() {
+
+    window.location.href = 'login.html';
 
   }
 
@@ -142,26 +161,19 @@
       senhaVar == "" ||
       confSenhaVar == ""
     ) {
-      cardErro.style.display = "block";
-      mensagem_erro.innerHTML =
-        "(Mensagem de erro para todos os campos em branco)";
 
-      finalizarAguardar();
+      alert('inputs em branco');
+
+
       return false;
     } else if (nomeVar.length <= 1 || emailVar.includes('@') == false || emailVar.includes('.') == false
-      || senhaVar.length <= 6 || senhaVar != confirmacaoSenhaVar) {
+      || senhaVar.length <= 6 || senhaVar != confSenhaVar) {
 
-      cardErro.style.display = "block";
-      mensagem_erro.innerHTML =
-        "(Input Invalido)";
+      alert('inputs inválidos');
 
-      finalizarAguardar();
+
       return false;
 
-    }
-
-    else {
-      setInterval(sumirMensagem, 5000);
     }
 
     // Enviando o valor da nova input
@@ -178,11 +190,13 @@
         senhaServer: senhaVar,
       }),
     })
+
       .then(function (resposta) {
         console.log("resposta: ", resposta);
 
+        console.log('a');
+
         if (resposta.ok) {
-          cardErro.style.display = "block";
 
           alert('Cadastro Realizado com sucesso! redirecionando para a pagina de login...');
 
@@ -190,41 +204,16 @@
             window.location = "login.html";
           }, "2000");
 
-          limparFormulario();
-          finalizarAguardar();
+
         } else {
           throw "Houve um erro ao tentar realizar o cadastro!";
         }
       })
       .catch(function (resposta) {
         console.log(`#ERRO: ${resposta}`);
-        finalizarAguardar();
+
       });
 
     return false;
-  }
-
-  // Listando empresas cadastradas 
-  function listar() {
-    fetch("/empresas/listar", {
-      method: "GET",
-    })
-      .then(function (resposta) {
-        resposta.json().then((empresas) => {
-          empresas.forEach((empresa) => {
-            listaUsuariosCadastrados.push(empresa);
-
-            console.log("listaUsuariosCadastrados")
-            console.log(listaUsuariosCadastrados[0].codigo_ativacao)
-          });
-        });
-      })
-      .catch(function (resposta) {
-        console.log(`#ERRO: ${resposta}`);
-      });
-  }
-
-  function sumirMensagem() {
-    cardErro.style.display = "none";
   }
 </script>
