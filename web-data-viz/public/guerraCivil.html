@@ -73,47 +73,33 @@
 
     <div class="container-discucoes">
 
-      <span>aaaaaaaaaaaaaaaaaaaaaaa</span><br>
-      <span>aaaaaaaaaaaaaaaaaaaaaaa</span><br>
-      <span>aaaaaaaaaaaaaaaaaaaaaaa</span><br>
-      <span>aaaaaaaaaaaaaaaaaaaaaaa</span><br>
-      <span>aaaaaaaaaaaaaaaaaaaaaaa</span><br>
-      <span>aaaaaaaaaaaaaaaaaaaaaaa</span><br>
-      <span>aaaaaaaaaaaaaaaaaaaaaaa</span><br>
-      <span>aaaaaaaaaaaaaaaaaaaaaaa</span><br>
-      <span>aaaaaaaaaaaaaaaaaaaaaaa</span><br>
-      <span>aaaaaaaaaaaaaaaaaaaaaaa</span><br>
-      <span>aaaaaaaaaaaaaaaaaaaaaaa</span><br>
-      <span>aaaaaaaaaaaaaaaaaaaaaaa</span><br>
-      <span>aaaaaaaaaaaaaaaaaaaaaaa</span><br>
-      <span>aaaaaaaaaaaaaaaaaaaaaaa</span><br>
-      <span>aaaaaaaaaaaaaaaaaaaaaaa</span><br>
-      <span>aaaaaaaaaaaaaaaaaaaaaaa</span><br>
-      <span>aaaaaaaaaaaaaaaaaaaaaaa</span><br>
-      <span>aaaaaaaaaaaaaaaaaaaaaaa</span><br>
-      <span>aaaaaaaaaaaaaaaaaaaaaaa</span><br>
-      <span>aaaaaaaaaaaaaaaaaaaaaaa</span><br>
-      <span>aaaaaaaaaaaaaaaaaaaaaaa</span><br>
-      <span>aaaaaaaaaaaaaaaaaaaaaaa</span><br>
-      <span>aaaaaaaaaaaaaaaaaaaaaaa</span><br>
-      <span>aaaaaaaaaaaaaaaaaaaaaaa</span><br>
-      <span>aaaaaaaaaaaaaaaaaaaaaaa</span><br>
-      <span>aaaaaaaaaaaaaaaaaaaaaaa</span><br>
-      <span>aaaaaaaaaaaaaaaaaaaaaaa</span><br>
-      <span>aaaaaaaaaaaaaaaaaaaaaaa</span><br>
-      <span>aaaaaaaaaaaaaaaaaaaaaaa</span><br>
-      <span>aaaaaaaaaaaaaaaaaaaaaaa</span><br>
-      <span>aaaaaaaaaaaaaaaaaaaaaaa</span><br>
-      <span>aaaaaaaaaaaaaaaaaaaaaaa</span><br>
-      <span>aaaaaaaaaaaaaaaaaaaaaaa</span><br>
-      <span>aaaaaaaaaaaaaaaaaaaaaaa</span><br>
-      <span>aaaaaaaaaaaaaaaaaaaaaaa</span><br>
-      <span>aaaaaaaaaaaaaaaaaaaaaaa</span><br>
+
 
       <input type="number" id="input_voto"><br>
-      <button onclick="Votar()">Votar</button>
+      <button onclick="Votar()">Votar</button><br>
 
-      <canvas id="canvas_resultadoVotacao"></canvas>
+      <canvas id="canvas_resultadoVotacao"></canvas><br>
+
+      <span id="span_tamanho">0/1000</span><br>
+      <textarea oninput="MostrarTamanho()" maxlength="1000" id="textarea_comentario"></textarea><br>
+      <button onclick="Comentar()">Comentar</button>
+
+      <div class="comentarios" id="div_comentarios">
+
+        <div class="box-comentario">
+
+          <div class="usuario">
+
+            <img src="../public/assets/user_icon.png" alt="">
+            <h1>usuario</h1>
+
+          </div>
+
+          <span></span>
+
+        </div>
+
+      </div>
 
     </div>
 
@@ -142,6 +128,8 @@
 </html>
 
 <script>
+
+  var chartVotacao;
 
   var b_usuario = document.getElementById("b_usuario");
   var button_login = document.getElementById('button_login');
@@ -175,6 +163,107 @@
 
   }
 
+  function MostrarTamanho() {
+
+    var textarea = textarea_comentario.value;
+    span_tamanho.innerHTML = `${textarea.length}/1000`;
+
+  }
+
+  function Comentar() {
+
+    if (sessionStorage.NOME_USUARIO == undefined || sessionStorage.NOME_USUARIO == '') {
+
+      alert('Você precisa estar logado para poder comentar');
+
+    } else {
+
+
+      fetch('/comentario/comentar', {
+
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+
+          texto: textarea_comentario.value,
+          idUsuario: sessionStorage.ID_USUARIO,
+          idDiscucao: 1,
+
+        }),
+
+      })
+        .then(function (resposta) {
+
+          if (resposta.ok) {
+
+            alert('Comentário realizado com sucesso!')
+            exibirComentarios();
+
+          } else {
+
+            alert('Erro ao comentar')
+
+          }
+
+        })
+    }
+
+  }
+
+  function exibirComentarios() {
+
+    fetch(('comentario/exibirComentarios'), {
+
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+
+        idDiscucao: 1
+
+      }),
+
+    })
+      .then(function (resposta) {
+
+        resposta.json().then(function (response) {
+
+          response.reverse();
+          console.log(JSON.stringify(response));
+
+          var msg = '';
+
+          for (var x = 0; x < response.length; x++) {
+
+            msg += `
+          
+            <div class="box-comentario">
+
+              <div class="usuario">
+
+                <img src="../public/assets/user_icon.png" alt=""> 
+                <h1>${response[x].nome}</h1>
+
+              </div>
+
+              <span>${response[x].texto}</span>
+
+            </div>
+            `
+
+          }
+
+          div_comentarios.innerHTML = msg;
+
+        })
+
+      })
+
+  }
+
   function Votar() {
 
 
@@ -198,6 +287,7 @@
         if (resposta.ok) {
 
           alert('Voto efetuado com sucesso!');
+          AtualizarGrafico(chartVotacao.data);
 
         } else {
 
@@ -239,7 +329,7 @@
 
           let labels = [
 
-          'Votos'
+            'Votos'
 
           ];
 
@@ -250,33 +340,75 @@
               label: 'Capitão América',
               data: [],
               fill: false,
-              borderColor: 'rgb(75, 192, 192)',
+              borderColor: '#0000ff',
+              backgroundColor: '#002d5c',
               tension: 0.1
             },
             {
               label: 'Homem de Ferro',
               data: [],
               fill: false,
-              borderColor: 'rgb(199, 52, 52)',
+              borderColor: '#E30022',
+              backgroundColor: '#CC0000',
               tension: 0.1
             }]
 
           }
 
+          if (response.length > 1) {
 
-          dados.datasets[0].data.push(response[0].total);
-          dados.datasets[1].data.push(response[1].total);
+            dados.datasets[0].data.push(response[0].total);
+            dados.datasets[1].data.push(response[1].total);
+
+          } else if (response.length == 1 && response[0].Opcao == 1) {
+
+            dados.datasets[0].data.push(response[0].total);
+
+          } else if (response.length == 1 && response[0].Opcao == 2) {
+
+            dados.datasets[1].data.push(response[0].total);
+
+          } else {
+
+            dados.datasets[0].data.push(0);
+            dados.datasets[1].data.push(0);
+
+          }
 
 
 
           const config = {
             type: 'bar',
             data: dados,
+            options: {
+
+              scales: {
+
+                x: {
+
+                  ticks: {
+
+                    color: 'black'
+
+                  }
+
+                },
+                y: {
+
+                  ticks: {
+
+                    color: 'black'
+
+                  }
+
+                }
+
+              }
+
+            }
           };
 
-          console.log('fazbear');
-
-          let chartVotacao = new Chart(
+          chartVotacao = new Chart(
             document.getElementById(`canvas_resultadoVotacao`),
             config
           );
@@ -289,6 +421,62 @@
 
   }
 
+  function AtualizarGrafico(dados) {
+
+    fetch(('votacao/gerarGrafico'), {
+
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+
+        idDiscucao: 1
+
+      }),
+
+    })
+      .then(function (resposta) {
+
+        resposta.json().then(function (response) {
+
+          response.reverse();
+          console.log(`Dados recebidos: ${JSON.stringify(response)}`);
+
+
+
+          dados.datasets[0].data.shift();
+          dados.datasets[1].data.shift();
+
+          if (response.length > 1) {
+
+            dados.datasets[0].data.push(response[0].total);
+            dados.datasets[1].data.push(response[1].total);
+
+          } else if (response.length == 1 && response[0].Opcao == 1) {
+
+            dados.datasets[0].data.push(response[0].total);
+
+          } else if (response.length == 1 && response[0].Opcao == 2) {
+
+            dados.datasets[1].data.push(response[0].total);
+
+          } else {
+
+            dados.datasets[0].data.push(0);
+            dados.datasets[1].data.push(0);
+
+          }
+
+          chartVotacao.update();
+
+        })
+
+      })
+
+  }
+
   gerarGrafico();
+  exibirComentarios();
 
 </script>

@@ -143,13 +143,92 @@ main .container{
 main .container-discucoes{
 
     width: 80%;
-    opacity: 90%;
     margin: 1rem;
     padding: 3rem;
-    background-color: var(--cor3);
+    background-color:  rgba(196, 164, 132,0.9);
     outline: 3px solid black;
     border-radius: 15px;
     flex-direction: row;
+
+}
+
+main .container-discucoes .comentarios{
+
+    width: 100%;
+    margin: 0.5rem;
+    background-color: var(--cor4);
+    opacity: 90%;
+    padding-bottom: 1rem;
+    padding-top: 1rem;
+    display: flex;
+    border-radius: 15px;
+    outline: 1px solid black;
+
+}
+
+main .container-discucoes .comentarios{
+
+    width: 100%;
+    margin: 0.5rem;
+    background-color: var(--cor4);
+    opacity: 90%;
+    padding-bottom: 1rem;
+    padding-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+
+}
+
+main .container-discucoes .box-comentario{
+
+    width: 95%;
+    background-color: #ec2c24;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    border-radius: 15px;
+    outline: 1px solid black;
+    padding-bottom: 1rem;
+    padding-top: 1rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    overflow-wrap: break-word;
+
+
+}
+
+.usuario{
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+}
+
+main .container-discucoes .box-comentario img{
+
+    height: 5rem;
+    width: 10%;
+
+
+}
+
+main .container-discucoes .box-comentario h1{
+
+    font-weight: bolder;
+    font-size: 2.5rem;
+
+
+}
+
+main .container-discucoes .box-comentario span{
+
+    font-size: 1.5rem;
+
+
 
 }
 
@@ -165,6 +244,20 @@ main .lista-discucoes{
     flex-direction: column;
     justify-content: start;
     align-items: start;
+
+}
+
+main .container-discucoes canvas{
+
+    opacity: 1;
+
+}
+
+main .container-discucoes textarea{
+
+    width: 100%;
+    height: 8rem;
+    
 
 }
 
