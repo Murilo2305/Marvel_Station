@@ -127,16 +127,141 @@ main{
 
 }
 
+main *{
+
+    margin-top: 1rem;
+
+}
+
 main .container{
 
     width: 100%;
-    opacity: 90%;
     margin: 1rem;
     padding: 3rem;
-    background-color: var(--cor3);
+    background-color:rgba(196, 164, 132,0.9);
     outline: 3px solid black;
     border-radius: 15px;
     flex-direction: row;
+    overflow-wrap: break-word;
+    
+
+}
+
+.logo-body{
+
+    height: 12rem;
+    width: 48rem;
+
+}
+.center{
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin-top: 1rem;
+
+}
+
+.discreto{
+
+    color: rgb(48, 48, 48);
+    opacity: 90%;
+
+}
+
+.titulo-esquerda{
+
+    display: flex;
+    align-items: start;
+    margin-top: 1rem;
+    font-size: 2rem;
+
+}
+
+.esquerda{
+
+    display: flex;
+    flex-direction: row;
+
+}
+
+.direita{
+
+    display: flex;
+    flex-direction: row-reverse;
+
+}
+
+.img-direita{
+
+    height: 24rem;
+    width: auto;
+    outline: 3px solid black;
+    border-radius: 15px;
+
+}
+
+.img-center{
+
+    height: 24rem;
+    width: 100%;
+    outline: 3px solid black;
+    border-radius: 15px;
+
+}
+
+.botoes{
+
+    display: flex;
+    align-items: space-around;
+    justify-content: space-around;
+
+}
+
+main button{
+
+    height: 3rem;
+    background-color: var(--cor2);
+    border-radius: 15px;
+
+}
+
+.img-esquerda{
+
+    height: 24rem;
+    width: 40rem;
+
+}
+
+.img-page{
+
+    height: 35rem;
+    width: 20rem;
+    outline: 3px solid black;
+    border-radius: 15px;
+
+}
+
+.kpis{
+
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.box-kpi{
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--cor2);
+    overflow-wrap: break-word;
+    text-align: center;
+    width: 30%;
+    padding: 0.5rem;
 
 }
 
@@ -200,6 +325,16 @@ main .container-discucoes .box-comentario{
 
 }
 
+.bloco-texto{
+
+    margin: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+}
+
 .usuario{
 
     display: flex;
@@ -227,8 +362,6 @@ main .container-discucoes .box-comentario h1{
 main .container-discucoes .box-comentario span{
 
     font-size: 1.5rem;
-
-
 
 }
 
@@ -265,7 +398,6 @@ main .lista-discucoes ul li{
 
     margin-top: 1rem;
     
-
 }
 
 main .container-login{

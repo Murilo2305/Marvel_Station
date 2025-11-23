@@ -19,7 +19,7 @@ function votar(req, res) {
 
                     if (resultadoAutenticar.length > 0) {
 
-                        res.status(400).send('Você ja votou nessa discussçao!')
+                        res.status(400).send('Você ja votou nessa discusscao!')
 
                     } else {
 
