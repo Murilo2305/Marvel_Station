@@ -205,7 +205,6 @@ main .container{
 
 .img-center{
 
-    height: 24rem;
     width: 100%;
     outline: 3px solid black;
     border-radius: 15px;
@@ -326,7 +325,7 @@ main .container-discucoes .box-comentario{
 }
 
 .bloco-texto{
-
+    text-align: justify;
     margin: 1rem;
     display: flex;
     flex-direction: column;

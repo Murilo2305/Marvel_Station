@@ -15,12 +15,7 @@ var HOST_APP = process.env.APP_HOST;
 
 var app = express();
 
-var indexRouter = require("./src/routes/index");
 var usuarioRouter = require("./src/routes/usuarios");
-var avisosRouter = require("./src/routes/avisos");
-var medidasRouter = require("./src/routes/medidas");
-var aquariosRouter = require("./src/routes/aquarios");
-var empresasRouter = require("./src/routes/empresas");
 var votacaoRouter = require('./src/routes/votacao');
 var comentarioRouter = require('./src/routes/comentario');
 
@@ -30,24 +25,27 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use(cors());
 
-app.use("/", indexRouter);
 app.use("/usuarios", usuarioRouter);
-app.use("/avisos", avisosRouter);
-app.use("/medidas", medidasRouter);
-app.use("/aquarios", aquariosRouter);
-app.use("/empresas", empresasRouter);
 app.use('/votacao',votacaoRouter);
 app.use('/comentario',comentarioRouter);
 
 app.listen(PORTA_APP, function () {
-    console.log(`
-    ##   ##  ######   #####             ####       ##     ######     ##              ##  ##    ####    ######  
-    ##   ##  ##       ##  ##            ## ##     ####      ##      ####             ##  ##     ##         ##  
-    ##   ##  ##       ##  ##            ##  ##   ##  ##     ##     ##  ##            ##  ##     ##        ##   
-    ## # ##  ####     #####    ######   ##  ##   ######     ##     ######   ######   ##  ##     ##       ##    
-    #######  ##       ##  ##            ##  ##   ##  ##     ##     ##  ##            ##  ##     ##      ##     
-    ### ###  ##       ##  ##            ## ##    ##  ##     ##     ##  ##             ####      ##     ##      
-    ##   ##  ######   #####             ####     ##  ##     ##     ##  ##              ##      ####    ######  
+    console.log(`\n
+/==========================================================\n
+||███╗   ███╗ █████╗ ██████╗ ██╗   ██╗███████╗██╗         ||
+||████╗ ████║██╔══██╗██╔══██╗██║   ██║██╔════╝██║         ||
+||██╔████╔██║███████║██████╔╝██║   ██║█████╗  ██║         ||
+||██║╚██╔╝██║██╔══██║██╔══██╗╚██╗ ██╔╝██╔══╝  ██║         ||
+||██║ ╚═╝ ██║██║  ██║██║  ██║ ╚████╔╝ ███████╗███████╗    ||
+||╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝  ╚═══╝  ╚══════╝╚══════╝    ||
+||                                                        ||
+||███████╗████████╗ █████╗ ████████╗██╗ ██████╗ ███╗   ██╗||
+||██╔════╝╚══██╔══╝██╔══██╗╚══██╔══╝██║██╔═══██╗████╗  ██║||
+||███████╗   ██║   ███████║   ██║   ██║██║   ██║██╔██╗ ██║||
+||╚════██║   ██║   ██╔══██║   ██║   ██║██║   ██║██║╚██╗██║||
+||███████║   ██║   ██║  ██║   ██║   ██║╚██████╔╝██║ ╚████║||
+||╚══════╝   ╚═╝   ╚═╝  ╚═╝   ╚═╝   ╚═╝ ╚═════╝ ╚═╝  ╚═══╝||
+\==========================================================/
     \n\n\n                                                                                                 
     Servidor do seu site já está rodando! Acesse o caminho a seguir para visualizar .: http://${HOST_APP}:${PORTA_APP} :. \n\n
     Você está rodando sua aplicação em ambiente de .:${process.env.AMBIENTE_PROCESSO}:. \n\n
